@@ -1,0 +1,12 @@
+<div>
+    <div class="list">
+        <li ng-repeat="listItem in listData">
+            <center><a href=#{{path}}/{{$index+1}}>{{listItem.name || listItem.title}}</a></center>
+        </li>
+    </div>
+    
+    <div style="text-align: center">
+        <input type="button" value="Previous" ng-click="getPreviousListData()" ng-disabled="!prevUrl"/>
+        <input type="button" value="Next" ng-click="getNextListData()" ng-disabled="!nextUrl"/>
+    </div>
+</div>

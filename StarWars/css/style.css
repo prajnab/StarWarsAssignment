@@ -25,6 +25,7 @@ ul, li {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
+    text-align: center;
 }
 
 li {
@@ -40,6 +41,10 @@ a, a:visited, a:focus, a:hover {
     color: white;
     margin: 0px;
     padding: 0px;
+}
+
+.list ul {
+    overflow: auto;
 }
 
 .list li {
@@ -58,6 +63,29 @@ a, a:visited, a:focus, a:hover {
 
 .list li a:hover {
     background-color: rgba(5, 73, 121, 0.5);
+    color: white;
+}
+
+.prevNextButtonsDiv {
+    text-align: center;
+}
+
+.prevNextButtonsDiv>.btn-primary {
+    border-radius: 0px;
+    /*padding: 10px 25px;*/
+    background-color: #054979;
+    border-color: #054979;
+    color: white;
+    margin: 5px;
+    width: 150px;
+}
+
+.nextButton {
+    border-radius: 0px;
+    padding: 10px 25px;
+    background-color: #054979;
+    border-color: #054979;
+    /*box-shadow: none;*/
     color: white;
 }
 
@@ -95,16 +123,16 @@ a, a:visited, a:focus, a:hover {
     top: 0;
     left: 0;
     right: 0;
-    height: 175px;
+    height: 160px;
     overflow: hidden;
 }
 
 #mainContent {
     position: absolute;
     left: 0;
-    top: 175px;
+    top: 160px;
     right: 0;
-    bottom:200px;
+    bottom:120px;
     overflow: auto;
 }
 
@@ -113,19 +141,21 @@ a, a:visited, a:focus, a:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    height:175px;
+    height:120px;
     overflow: hidden;
 }
 
 #footerList li{
     color: #054979;
+    font-size: 10px;
+    margin: 0px 5px;
 }
 
 #footerList {
-    margin: 36px 10px 20px 10px;
+    margin: 24px 10px 20px 10px;
 }
 
 #copyright_text {
     margin: 10px;
+    font-size: 10px;
 }
-

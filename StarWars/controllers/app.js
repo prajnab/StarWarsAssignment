@@ -1,4 +1,15 @@
 var myApp = angular.module("starWarsApp", ["ngRoute"])
+.run(function($rootScope){
+    $rootScope.isNavBarVisible = false;
+    $rootScope.tabsData = [
+        { name: "films", path: "#/films", logo: "assets/img/topics/films_normal.png", hoverLogo: "assets/img/topics/films_pressed.png" },
+        { name: "species", path: "#/species", logo: "assets/img/topics/species_normal.png", hoverLogo: "assets/img/topics/species_pressed.png" },
+        { name: "planets", path: "#/planets", logo: "assets/img/topics/planets_normal.png", hoverLogo: "assets/img/topics/planets_pressed.png" },
+        { name: "people", path: "#/people", logo: "assets/img/topics/characters_normal.png", hoverLogo: "assets/img/topics/characters_pressed.png" },
+        { name: "starships", path: "#/starships", logo: "assets/img/topics/droids_normal.png", hoverLogo: "assets/img/topics/droids_pressed.png" },
+        { name: "vehicles", path: "#/vehicles", logo: "assets/img/topics/vehicles_normal.png", hoverLogo: "assets/img/topics/vehicles_pressed.png" }
+    ];
+})
 .config(function ($routeProvider, $locationProvider){
                       $routeProvider.caseInsensitiveMatch = true;
                        $routeProvider
@@ -37,32 +48,32 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            controller: "listController",
                            controllerAs: "listCtrl"
                        })
-                       .when("/films/:id", {
+                           .when("/films/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl"
                        })
-                       .when("/species/:id", {
+                           .when("/species/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl"
                        })
-                       .when("/planets/:id", {
+                           .when("/planets/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl"
                        })
-                       .when("/people/:id", {
+                           .when("/people/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl"
                        })
-                       .when("/starships/:id", {
+                           .when("/starships/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl"
                        })
-                       .when("/vehicles/:id", {
+                           .when("/vehicles/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
                            controllerAs: "detailsCtrl"
@@ -76,26 +87,16 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
 .controller("navBarController", function($scope, $location) {
             $scope.isNavBarActive = function (viewLocation) {
                 console.log("viewLocation : " + viewLocation + "path : " + $location.path());
-                return (("/" + viewLocation) === $location.path()); 
+                //return (("/" + viewLocation) === $location.path()); 
+                return ($location.path().includes(viewLocation)); 
             };
 })
-.controller("homeController", function ($rootScope, $window) {
-    $rootScope.isNavBarVisible = false;
-    $rootScope.tabsData = [
-        { name: "films", path: "#/films", logo: "assets/img/topics/films_normal.png", hoverLogo: "assets/img/topics/films_pressed.png" },
-        { name: "species", path: "#/species", logo: "assets/img/topics/species_normal.png", hoverLogo: "assets/img/topics/species_pressed.png" },
-        { name: "planets", path: "#/planets", logo: "assets/img/topics/planets_normal.png", hoverLogo: "assets/img/topics/planets_pressed.png" },
-        { name: "people", path: "#/people", logo: "assets/img/topics/characters_normal.png", hoverLogo: "assets/img/topics/characters_pressed.png" },
-        { name: "starships", path: "#/starships", logo: "assets/img/topics/droids_normal.png", hoverLogo: "assets/img/topics/droids_pressed.png" },
-        { name: "vehicles", path: "#/vehicles", logo: "assets/img/topics/vehicles_normal.png", hoverLogo: "assets/img/topics/vehicles_pressed.png" }
-    ];
-    $rootScope.onFooterItemClicked = function ()
-    {
-        $window.location.href = "www.robosoftin.com";
-    }
+.controller("homeController", function () {
+   
 })
 .controller("listController", function($scope, $http, $location, $rootScope){
     $rootScope.isNavBarVisible = true;
+    console.log($rootScope.isNavBarVisible);
     
      var successCallback = function (response) {
          $scope.nextUrl = response.data.next;

@@ -1,8 +1,8 @@
 <ul class="list-inline" id="homeList">
-    <li ng-repeat="tab in tabsData">
+    <li class="col-lg-4 col-md-4" ng-repeat="tab in tabsData">
         <a href="{{tab.path}}">
             <div ng-init="imgSrc=tab.logo" ng-mouseover="imgSrc=tab.hoverLogo" ng-mouseout="imgSrc=tab.logo">
-                <img ng-src="{{imgSrc}}"/>
+                <img height="50%" ng-src="{{imgSrc}}" width="50%"/>
                 <center>{{tab.name | uppercase }}</center>
             </div>
         </a>

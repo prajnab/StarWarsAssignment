@@ -10,6 +10,26 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
         { name: "vehicles", path: "#/vehicles", logo: "assets/img/topics/vehicles_normal.png", hoverLogo: "assets/img/topics/vehicles_pressed.png" }
     ];
 })
+.factory("listPageService", function($http, $location){
+   return {
+       getListData : function(){
+           console.log("Path - " + $location.path());
+           return $http.get("http://swapi.co/api" + $location.path()).then(function (response) {
+               console.log("Result - " + response.data);
+               return response.data;
+           })
+       }
+   }
+})
+.factory("detailsPageService", function($http, $location){
+   return {
+       getDetailsData : function(){
+           return $http.get("http://swapi.co/api" + $location.path()).then(function (response) {
+               return response.data;
+           })
+       }
+   }
+})
 .config(function ($routeProvider, $locationProvider){
                       $routeProvider.caseInsensitiveMatch = true;
                        $routeProvider
@@ -21,62 +41,122 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                            .when("/films", {
                            templateUrl: "templates/list.html",
                            controller: "listController",
-                           controllerAs: "listCtrl"
+                           controllerAs: "listCtrl",
+                           resolve: {
+                                listData: function(listPageService){
+                                    return listPageService.getListData();
+                                }
+                            }
                        })
                            .when("/species", {
                            templateUrl: "templates/list.html",
                            controller: "listController",
-                           controllerAs: "listCtrl"
+                           controllerAs: "listCtrl",
+                           resolve: {
+                                listData: function(listPageService){
+                                    return listPageService.getListData();
+                                }
+                            }
                        })
                            .when("/planets", {
                            templateUrl: "templates/list.html",
                            controller: "listController",
-                           controllerAs: "listCtrl"
+                           controllerAs: "listCtrl",
+                           resolve: {
+                                listData: function(listPageService){
+                                    return listPageService.getListData();
+                                }
+                            }
                        })
                            .when("/people", {
                            templateUrl: "templates/list.html",
                            controller: "listController",
-                           controllerAs: "listCtrl"
+                           controllerAs: "listCtrl",
+                           resolve: {
+                                listData: function(listPageService){
+                                    return listPageService.getListData();
+                                }
+                            }
                        })
                            .when("/starships", {
                            templateUrl: "templates/list.html",
                            controller: "listController",
-                           controllerAs: "listCtrl"
+                           controllerAs: "listCtrl",
+                           resolve: {
+                                listData: function(listPageService){
+                                    return listPageService.getListData();
+                                }
+                            }
                        })
                            .when("/vehicles", {
                            templateUrl: "templates/list.html",
                            controller: "listController",
-                           controllerAs: "listCtrl"
+                           controllerAs: "listCtrl",
+                           resolve: {
+                                listData: function(listPageService){
+                                    return listPageService.getListData();
+                                }
+                            }
                        })
                            .when("/films/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
-                           controllerAs: "detailsCtrl"
+                           controllerAs: "detailsCtrl",
+                           resolve: {
+                                detailsData: function(detailsPageService){
+                                    return detailsPageService.getDetailsData();
+                                }
+                            }
                        })
                            .when("/species/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
-                           controllerAs: "detailsCtrl"
+                           controllerAs: "detailsCtrl",
+                           resolve: {
+                                detailsData: function(detailsPageService){
+                                    return detailsPageService.getDetailsData();
+                                }
+                            }
                        })
                            .when("/planets/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
-                           controllerAs: "detailsCtrl"
+                           controllerAs: "detailsCtrl",
+                           resolve: {
+                                detailsData: function(detailsPageService){
+                                    return detailsPageService.getDetailsData();
+                                }
+                            }
                        })
                            .when("/people/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
-                           controllerAs: "detailsCtrl"
+                           controllerAs: "detailsCtrl",
+                           resolve: {
+                                detailsData: function(detailsPageService){
+                                    return detailsPageService.getDetailsData();
+                                }
+                            }
                        })
                            .when("/starships/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
-                           controllerAs: "detailsCtrl"
+                           controllerAs: "detailsCtrl",
+                           resolve: {
+                                detailsData: function(detailsPageService){
+                                    return detailsPageService.getDetailsData();
+                                }
+                            }
                        })
                            .when("/vehicles/:id", {
                            templateUrl: "templates/details.html",
                            controller: "detailsController",
-                           controllerAs: "detailsCtrl"
+                           controllerAs: "detailsCtrl",
+                           resolve: {
+                                detailsData: function(detailsPageService){
+                                    return detailsPageService.getDetailsData();
+                                }
+                            }
                        })
                            .otherwise({
                            redirectTo: "/home"
@@ -86,7 +166,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
                    })
 .controller("navBarController", function($scope, $location) {
             $scope.isNavBarActive = function (viewLocation) {
-                console.log("viewLocation : " + viewLocation + "path : " + $location.path());
+                //console.log("viewLocation : " + viewLocation + "path : " + $location.path());
                 //return (("/" + viewLocation) === $location.path()); 
                 return ($location.path().includes(viewLocation)); 
             };
@@ -94,24 +174,16 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
 .controller("homeController", function () {
    
 })
-.controller("listController", function($scope, $http, $location, $rootScope){
+.controller("listController", function($scope, $http, $location, $rootScope, listData){
     $rootScope.isNavBarVisible = true;
+    $scope.path = $location.path();
     console.log($rootScope.isNavBarVisible);
     
-     var successCallback = function (response) {
-         $scope.nextUrl = response.data.next;
-         $scope.prevUrl = response.data.previous;
-         $scope.listData = response.data.results;
-    };
-
-    var errorCallback = function (response) {
-        $scope.error = response.data;
-    };
-    
-    $scope.path = $location.path();
-    console.log($scope.path);
-    
-    $http.get("http://swapi.co/api" + $scope.path).then(successCallback, errorCallback);
+    if(listData && listData.results){
+        $scope.listData = listData.results;
+        $scope.nextUrl = listData.results.next;
+        $scope.prevUrl = listData.results.previous;
+    }
     
     $scope.getPreviousListData = function () {
         console.log($scope.prevUrl);
@@ -123,19 +195,20 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
         $http.get($scope.nextUrl).then(successCallback, errorCallback);
     };
 })
-.controller("detailsController", function($scope, $http, $location, $rootScope){
+.controller("detailsController", function($scope, $http, $location, $rootScope, detailsData){
     $rootScope.isNavBarVisible = true;
-    
-     var successCallback = function (response) {
-         $scope.detailsData = response.data;
-         console.log(response.data);
-    };
-
-    var errorCallback = function (response) {
-        $scope.error = response.data;
-    };
     $scope.path = $location.path();
-    console.log($scope.path);
-    $http.get("http://swapi.co/api" + $scope.path).then(successCallback, errorCallback)
+    
+    if(detailsData){
+        $scope.detailsData = detailsData;
+    }
+    
+    
+         
+       /*  $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyCKER-MMdjjmtlRNA_9QX7x_kHL7f07qVw&cx=000151646051229800399:8kz0uivdlxa&q=" + (response.data.name | response.data.title)  + "&imgSize=large&num=1&fileType=jpg" + $scope.path).then(function(response){
+             $scope.detailsData.imgSrc = response.data.items.pagemap.cse_image.src
+             console.log($scope.detailsData);
+         });
+         */
+         
 });
-

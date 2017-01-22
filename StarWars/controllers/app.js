@@ -25,7 +25,13 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
    return {
        getDetailsData : function(){
            return $http.get("http://swapi.co/api" + $location.path()).then(function (response) {
-               return response.data;
+               console.log("Details Data - " + response.data);
+               var detailsResponse = response.data;
+               return $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyCKER-MMdjjmtlRNA_9QX7x_kHL7f07qVw&cx=000151646051229800399:8kz0uivdlxa&q=" + (detailsResponse.name | detailsResponse.title)  + "&imgSize=large&num=1&fileType=jpg" + $location.path()).then(function(response){
+                   detailsResponse.imgSrc = response.data.items[0].pagemap.cse_image[0].src;
+                   console.log("Details Image Data - " + detailsResponse);
+                   return detailsResponse;
+               });
            })
        }
    }
@@ -200,15 +206,7 @@ var myApp = angular.module("starWarsApp", ["ngRoute"])
     $scope.path = $location.path();
     
     if(detailsData){
+        console.log(detailsData);
         $scope.detailsData = detailsData;
     }
-    
-    
-         
-       /*  $http.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyCKER-MMdjjmtlRNA_9QX7x_kHL7f07qVw&cx=000151646051229800399:8kz0uivdlxa&q=" + (response.data.name | response.data.title)  + "&imgSize=large&num=1&fileType=jpg" + $scope.path).then(function(response){
-             $scope.detailsData.imgSrc = response.data.items.pagemap.cse_image.src
-             console.log($scope.detailsData);
-         });
-         */
-         
 });
